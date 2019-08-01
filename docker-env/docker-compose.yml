@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+    ppi-db:
+        image: postgres:${DB_VERSION}
+        container_name: ppi-db
+        restart: always
+        ports:
+            - 5432:5432
+        environment:
+            - PPI_USER=${DB_USER}
+            - PPI_DB=${DB_NAME}
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=${DB_PASSWORD} # Will be used for `postgres` & `ppi_data` users
+            - PGPASSWORD=${DB_PASSWORD}
+        networks:
+            - default
+        volumes:
+            - ./conf/postgres/initdb:/docker-entrypoint-initdb.d
+            - pgdata:/var/lib/postgresql/data
+
+    ppi-graphql:
+        image: graphile/postgraphile
+        container_name: ppi-graphql
+        restart: always
+        env_file:
+          - ./.env
+        depends_on:
+          - ppi-db
+        networks:
+          - default
+        ports:
+          - 8000:8000
+        command: ["postgraphile", "--connection", "postgres://${DB_USER}:${DB_PASSWORD}@ppi-db:5432/${DB_NAME}", "--port", "8000", "--schema", "ppi"]
+
+networks:
+  default:
+    external:
+      name: ppi-network
+
+volumes:
+    pgdata:

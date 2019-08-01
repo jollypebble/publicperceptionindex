@@ -1,0 +1,3 @@
+[submodule "pythonMcparseface"]
+	path = pythonMcparseface
+	url = git@github.com:ostowe/python-mcparseface.git
