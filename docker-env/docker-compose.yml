@@ -18,19 +18,13 @@ services:
             - ./conf/postgres/initdb:/docker-entrypoint-initdb.d
             - pgdata:/var/lib/postgresql/data
 
-    ppi-graphql:
-        image: graphile/postgraphile
-        container_name: ppi-graphql
-        restart: always
-        env_file:
-          - ./.env
-        depends_on:
-          - ppi-db
-        networks:
-          - default
+    ppi-parseymcparseface:
+        image: andersrye/parsey-mcparseface-server
+        contain_name: ppi-parseymcparseface
         ports:
-          - 8000:8000
-        command: ["postgraphile", "--connection", "postgres://${DB_USER}:${DB_PASSWORD}@ppi-db:5432/${DB_NAME}", "--port", "8000", "--schema", "ppi"]
+            - 7777:80
+        networks:
+            - default
 
 networks:
   default:
