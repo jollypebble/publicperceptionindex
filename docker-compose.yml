@@ -27,6 +27,18 @@ services:
         networks:
             - default
 
+    ppi-python:
+        image: python:latest
+        container_name: ppi-python
+        restart: always
+        depends_on:
+          - ppi-db
+          - ppi-parseymcparseface
+        networks:
+          - default
+        volumes:
+          - ./src:/usr/src
+
 networks:
   default:
 

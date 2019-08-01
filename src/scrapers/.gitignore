@@ -1,0 +1,6 @@
+# python
+*.pyc
+
+# local ignores
+syntaxnet/*
+config.py
