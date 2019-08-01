@@ -20,7 +20,8 @@ services:
 
     ppi-parseymcparseface:
         image: andersrye/parsey-mcparseface-server
-        contain_name: ppi-parseymcparseface
+        container_name: ppi-parseymcparseface
+        restart: always
         ports:
             - 7777:80
         networks:
